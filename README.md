@@ -1,38 +1,71 @@
-#include <stdio.h>
+#include<stdio.h>
+#include<time.h>
+ 
+void quick_sort(int arr[20],int,int);
  
 int main()
 {
-   int array[100], n, c, d, position, swap;
+	clock_t start,end;
+	start=clock();
+ int arr[20],n,i;
  
-   printf("Enter number of elements\n");
-   scanf("%d", &n);
+ printf("Enter the number of elements in the Array: ");
+ scanf("%d",&n);
+ printf("\nEnter %d elements:\n\n",n);
  
-   printf("Enter %d integers\n", n);
+ for(i=0 ; i<n ; i++)
+ {
+  printf(" Array[%d] = ",i);
+  scanf("%d",&arr[i]);
+ }
  
-   for ( c = 0 ; c < n ; c++ )
-      scanf("%d", &array[c]);
+ quick_sort(arr,0,n-1);
+ printf("\nThe Sorted Array is:\n\n");
  
-   for ( c = 0 ; c < ( n - 1 ) ; c++ )
+ for(i=0 ; i<n ; i++)
+ {
+  printf(" %4d",arr[i]);
+ } 
+ 
+}
+ 
+void quick_sort(int arr[20],int low,int high)
+{
+ int pivot,j,temp,i;
+ if(low<high)
+ {
+  pivot = low;
+  i = low;
+  j = high;
+ 
+  while(i<j)
+  {
+   while((arr[i]<=arr[pivot])&&(i<high))
    {
-      position = c;
- 
-      for ( d = c + 1 ; d < n ; d++ )
-      {
-         if ( array[position] > array[d] )
-            position = d;
-      }
-      if ( position != c )
-      {
-         swap = array[c];
-         array[c] = array[position];
-         array[position] = swap;
-      }
+    i++;
    }
  
-   printf("Sorted list in ascending order:\n");
+   while(arr[j]>arr[pivot])
+   {
+    j--;
+   }
  
-   for ( c = 0 ; c < n ; c++ )
-      printf("%d\n", array[c]);
+   if(i<j)
+   { 
+    temp=arr[i];
+    arr[i]=arr[j];
+    arr[j]=temp;
+   }
+  }
  
-   return 0;
+  temp=arr[pivot];
+  arr[pivot]=arr[j];
+  arr[j]=temp;
+  quick_sort(arr,low,j-1);
+  quick_sort(arr,j+1,high);
+  end=clock();
+  printf("the time taken is %lf",(end-start));
+  return 0;
+ }
 }
+
